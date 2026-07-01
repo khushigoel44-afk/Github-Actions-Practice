@@ -1,9 +1,6 @@
 name: pr-check
 
 on:
-    pull_request:
-        branches: [main]
-        types: [opened, synchronize]
     schedule:
         - cron: '0 9 * * 1'
     workflow_dispatch:
@@ -21,5 +18,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: PR check running message
-        run: echo "PR check running for branch $GITHUB.HEAD_REF"
+        run: echo "PR check running for branch $github.ref_name"
 
