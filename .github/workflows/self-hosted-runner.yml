@@ -17,3 +17,7 @@ jobs:
             - name: Create a file
               run: mkdir Self-hosted-runner-file
 
+            - name: Print the absolute path on my machine
+              run: pwd
+
+
