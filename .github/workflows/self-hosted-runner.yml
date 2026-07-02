@@ -1,0 +1,19 @@
+name: self-hosted-runner
+
+on: 
+    push:
+        branches: [main]
+
+jobs:
+    self-hosted:
+        runs-on: self-hosted
+        steps:
+            - name: print the hostname
+              run: hostname
+
+            - name: Print the working directory
+              run: ls -la
+
+            - name: Create a file
+              run: mkdir Self-hosted-runner-file
+
