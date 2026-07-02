@@ -6,7 +6,7 @@ on:
 
 jobs:
     self-hosted:
-        runs-on: self-hosted
+        runs-on: [self-hosted, khushi]
         steps:
             - name: print the hostname
               run: hostname
