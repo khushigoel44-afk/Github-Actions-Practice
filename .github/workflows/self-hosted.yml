@@ -1,0 +1,42 @@
+name: self-hosted
+
+on: 
+    push:
+        branches: [main]
+
+jobs:
+    job1:
+        runs-on: ubuntu-latest
+        steps:
+            - name: The OS Name
+              run: echo "The Current OS is ${{ runner.os }}"
+
+            - name: The runner's hostname
+              run: echo "The current runner's hostname is ${{ runner.name }}"
+
+            - name: The current user running the job
+              run: echo "The current user running the job is ${{ github.actor }}"
+
+    job2:
+        runs-on: windows-latest
+        steps:
+            - name: The OS Name
+              run: echo "The Current OS is ${{ runner.os }}"
+
+            - name: The runner's hostname
+              run: echo "The current runner's hostname is ${{ runner.name }}"
+
+            - name: The current user running the job
+              run: echo "The current user running the job is ${{ github.actor }}"
+
+    job3:
+        runs-on: macos-latest
+        steps:
+            - name: The OS Name
+              run: echo "The Current OS is ${{ runner.os }}"
+
+            - name: The runner's hostname
+              run: echo "The current runner's hostname is ${{ runner.name }}"
+
+            - name: The current user running the job
+              run: echo "The current user running the job is ${{ github.actor }}"
