@@ -17,6 +17,18 @@ jobs:
             - name: The current user running the job
               run: echo "The current user running the job is ${{ github.actor }}"
 
+            - name: Prints the docker version
+              run: docker --version
+
+            - name: Prints the python version
+              run: python --version
+
+            - name: Prints the node version
+              run: node --version
+
+            - name: Prints the github version
+              run: git --version
+
     job2:
         runs-on: windows-latest
         steps:
