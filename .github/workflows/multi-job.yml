@@ -45,3 +45,23 @@ jobs:
                 echo "Step level (VERSION): $VERSION"
                 echo "The one who triggered the run: ${{ github.actor }}"
                 echo "The latest commit: ${{ github.sha }}"
+
+    data_info:
+        runs-on: self-hosted
+        needs: [environ]
+        outputs:
+            current_date: ${{ steps.date-step.outputs.today }}
+        steps:
+            - name: Display the date
+              id: date-step
+              run: |
+                  DATE_STR=$(date +'%Y-%m-%d')
+                  echo "today=$DATE_STR" >> "$GITHUB_OUTPUT"
+
+    print-data:
+        runs-on: self-hosted
+        needs: [data_info]
+        steps:
+            - name: Print the data
+              run: echo "The data passed is ${{ needs.data_info.outputs.current_date }}"
+
