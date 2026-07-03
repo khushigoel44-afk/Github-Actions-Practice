@@ -1,4 +1,4 @@
-name: self-hosted
+name: self-hostedpipeline.yml
 
 on: 
     push:
@@ -9,7 +9,7 @@ on:
 jobs:
     job1:
         runs-on: ubuntu-latest
-        if: github.event_name == pull_request
+        if: github.event_name == 'pull_request'
         steps:
             - name: The OS Name
               run: echo "The Current OS is ${{ runner.os }}"
