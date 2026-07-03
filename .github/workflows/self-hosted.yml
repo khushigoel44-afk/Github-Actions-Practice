@@ -3,10 +3,13 @@ name: self-hosted
 on: 
     push:
         branches: [main]
+    pull_request:
+        branches: [main]
 
 jobs:
     job1:
         runs-on: ubuntu-latest
+        if: github.event_name == pull_request
         steps:
             - name: The OS Name
               run: echo "The Current OS is ${{ runner.os }}"
@@ -41,6 +44,12 @@ jobs:
             - name: The current user running the job
               run: echo "The current user running the job is ${{ github.actor }}"
 
+            - name: Intentional Failure Step
+              continue-on-error: true
+              run: |
+                  echo "Simulating a soft failure..."
+                  exit 1
+
     job3:
         runs-on: macos-latest
         steps:
@@ -52,3 +61,10 @@ jobs:
 
             - name: The current user running the job
               run: echo "The current user running the job is ${{ github.actor }}"
+
+            - name: Hard crash
+              run: exit 1
+
+            - name: Rolling back/notification alert
+              if: failure()
+              run: echo "CRITICAL ERROR DETECTED!"
