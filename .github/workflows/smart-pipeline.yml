@@ -1,0 +1,27 @@
+name: smart-pipeline
+
+on: 
+    push:
+
+jobs:
+    lint:
+        runs-on: self-hosted
+        steps:
+            - name: Lint msg
+              run: echo "This is the linting stage"
+
+    test:
+        runs-on: self-hosted
+        steps:
+            - name: Test msg
+              run: echo "This is the testing stage"
+
+    summary:
+        runs-on: self-hosted
+        needs: [lint, test]
+        steps: 
+            - name: Branch Name
+              run: echo "The branch name is ${{ github.ref_name }}"
+
+            - name: Commit Message
+              run: echo "The Commit Message is ${{ github.event.head_commit.message }}"
