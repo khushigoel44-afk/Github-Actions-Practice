@@ -2,7 +2,7 @@ name: cache-workflow
 
 on:
     push:
-workflow_dispatch:
+    workflow_dispatch:
 
 jobs:
     cache-work:
