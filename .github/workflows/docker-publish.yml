@@ -1,0 +1,25 @@
+name: docker-publish
+
+on: 
+    push:
+        branches: [main]
+
+jobs:
+    docker-image:
+        env:
+            USERNAME: ${{ secrets.USERNAME }}
+            PASSWORD: ${{ secrets.PASSWORD }}
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout the code
+              uses: actions/checkout@v4
+
+            - name: Build the docker image
+              run: docker build -t "$USERNAME/aura_image:latest" .
+
+            - name: Login to DockerHub
+              run: docker login -u "$USERNAME" --password "$PASSWORD"
+
+            - name: Push the image to DockerHub
+              run: docker push "$USERNAME/aura_image:latest"
+
