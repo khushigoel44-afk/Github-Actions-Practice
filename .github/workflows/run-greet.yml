@@ -13,7 +13,7 @@ jobs:
 
             - name: Use the composite file
               id: greet_id
-              uses: ./.github/actions/setup-and-greet
+              uses: ./.github/actions/setup_and_greet
               with:
                   name: "Khushi"
                   language: "en"
