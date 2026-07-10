@@ -1,0 +1,14 @@
+name: call-build
+
+on: 
+    push:
+        branches: [main]
+
+jobs:
+    caller_workflow:
+        uses: ./.github/workflows/reusable-build.yml
+        with:
+            app_name: "My-new-app"
+            environment: "production"
+        secrets:
+            docker_token: ${{ secrets.PASSWORD }}
