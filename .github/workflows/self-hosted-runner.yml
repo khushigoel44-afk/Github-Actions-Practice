@@ -1,0 +1,24 @@
+name: self-hosted-runner
+
+on: 
+    push:
+        branches: [main]
+    workflow_dispatch:
+
+jobs:
+    self-hosted:
+        runs-on: [self-hosted, khushi]
+        steps:
+            - name: print the hostname
+              run: hostname
+
+            - name: Print the working directory
+              run: ls -la
+
+            - name: Create a file
+              run: mkdir -p Self-hosted-runner-file
+
+            - name: Print the absolute path on my machine
+              run: pwd
+
+

@@ -1,0 +1,67 @@
+name: multi-job
+
+on:
+    push:
+        branches: [main]
+
+env:
+    APP_NAME: myapp
+
+jobs:
+    build:
+        runs-on: self-hosted
+        env:
+            ENVIRONMENT: staging
+        steps:
+            - name: prints "Building the app"
+              run: echo "Building the app"
+              env:
+                  VERSION: 1.0.0
+
+    test:
+        runs-on: self-hosted
+        needs: [build]
+        steps:
+            - name: prints "Running tests"
+              run: echo "Running tests"
+
+    deploy:
+        runs-on: self-hosted
+        needs: [test]
+        steps:
+            - name: prints "Deploying"
+              run: echo "Deploying"
+            
+    environ:
+        runs-on: self-hosted
+        needs: [deploy]
+        steps:
+            - name: Print the Deatails
+              env:
+                  VERSION: 1.0.0
+              run: |
+                echo "Workflow level (APP_NAME): $APP_NAME"
+                echo "Job level (ENVIRONMENT): $ENVIRONMENT"
+                echo "Step level (VERSION): $VERSION"
+                echo "The one who triggered the run: ${{ github.actor }}"
+                echo "The latest commit: ${{ github.sha }}"
+
+    data_info:
+        runs-on: self-hosted
+        needs: [environ]
+        outputs:
+            current_date: ${{ steps.date-step.outputs.today }}
+        steps:
+            - name: Display the date
+              id: date-step
+              run: |
+                  DATE_STR=$(date +'%Y-%m-%d')
+                  echo "today=$DATE_STR" >> "$GITHUB_OUTPUT"
+
+    print-data:
+        runs-on: self-hosted
+        needs: [data_info]
+        steps:
+            - name: Print the data
+              run: echo "The data passed is ${{ needs.data_info.outputs.current_date }}"
+

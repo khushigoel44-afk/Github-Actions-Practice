@@ -1,0 +1,24 @@
+name: run-greet
+
+on:
+    push:
+        branches: [main]
+
+jobs:
+    composite_act:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout the code
+              uses: actions/checkout@v4
+
+            - name: Use the composite file
+              id: greet_id
+              uses: ./.github/actions/setup_and_greet
+              with:
+                  name: "Khushi"
+                  language: "en"
+
+            - name: get the Output
+              run: |
+                  echo "The final output is ${{ steps.greet_id.outputs.greeted }}"
+

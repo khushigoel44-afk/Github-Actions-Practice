@@ -1,0 +1,19 @@
+name: script-workflow
+
+on:
+    push:
+
+jobs:
+    scripts:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Check the code
+              uses: actions/checkout@v4
+
+            - name: Install the python
+              uses: actions/setup-python@v5
+              with:
+                  python-version: '3.13'
+
+            - name: Run the script
+              run: python test_logic.py

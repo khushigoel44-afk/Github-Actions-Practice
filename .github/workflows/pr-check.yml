@@ -19,4 +19,4 @@ jobs:
     steps:
       - name: PR check running message
         run: echo "PR check running for branch $github.ref_name"
-    
+

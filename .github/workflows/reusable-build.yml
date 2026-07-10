@@ -1,0 +1,50 @@
+name: reusable-build
+
+on: 
+    workflow_call:
+        inputs:
+            app_name:
+                description: This is the app name for inputs
+                type: string
+                required: true
+
+            environment:
+                description: This is the environment for inputs section
+                type: string
+                required: true
+                default: 'staging'
+        secrets:
+            docker_token:
+                description: This is the docker token inside the secrets section
+                required: true
+        outputs:
+            build_version:
+                description: This is the output for the given input
+                value: ${{ jobs.take_input.outputs.version }}
+
+
+jobs:
+    take_input:
+        runs-on: ubuntu-latest
+        outputs:
+            version: ${{ steps.generate_version.outputs.version_string }} 
+        steps:
+            - name: Checkout the code
+              uses: actions/checkout@v4
+
+            - name: Take input from the inputs section
+              run: echo "Building ${{ inputs.app_name }} for ${{ inputs.environment }}"
+
+            - name: Verify the docker token 
+              run: |
+                  if [ -n "${{ secrets.docker_token }}" ]; then
+                      echo "Docker token is set: true"
+                  else
+                      echo "Docker token is set: false"
+                      exit 1
+                  fi
+            - name: Generate The output
+              id: generate_version
+              run: |
+                  short_sha=$(git rev-parse HEAD | cut -c 1-7) 
+                  echo "version_string=v1.0-${short_sha}" >> $GITHUB_OUTPUT

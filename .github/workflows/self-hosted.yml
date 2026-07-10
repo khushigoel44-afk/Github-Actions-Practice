@@ -1,0 +1,70 @@
+name: self-hostedpipeline.yml
+
+on: 
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
+
+jobs:
+    job1:
+        runs-on: ubuntu-latest
+        if: github.event_name == 'pull_request'
+        steps:
+            - name: The OS Name
+              run: echo "The Current OS is ${{ runner.os }}"
+
+            - name: The runner's hostname
+              run: echo "The current runner's hostname is ${{ runner.name }}"
+
+            - name: The current user running the job
+              run: echo "The current user running the job is ${{ github.actor }}"
+
+            - name: Prints the docker version
+              run: docker --version
+
+            - name: Prints the python version
+              run: python --version
+
+            - name: Prints the node version
+              run: node --version
+
+            - name: Prints the github version
+              run: git --version
+
+    job2:
+        runs-on: windows-latest
+        steps:
+            - name: The OS Name
+              run: echo "The Current OS is ${{ runner.os }}"
+
+            - name: The runner's hostname
+              run: echo "The current runner's hostname is ${{ runner.name }}"
+
+            - name: The current user running the job
+              run: echo "The current user running the job is ${{ github.actor }}"
+
+            - name: Intentional Failure Step
+              continue-on-error: true
+              run: |
+                  echo "Simulating a soft failure..."
+                  exit 1
+
+    job3:
+        runs-on: macos-latest
+        steps:
+            - name: The OS Name
+              run: echo "The Current OS is ${{ runner.os }}"
+
+            - name: The runner's hostname
+              run: echo "The current runner's hostname is ${{ runner.name }}"
+
+            - name: The current user running the job
+              run: echo "The current user running the job is ${{ github.actor }}"
+
+            - name: Hard crash
+              run: exit 1
+
+            - name: Rolling back/notification alert
+              if: failure()
+              run: echo "CRITICAL ERROR DETECTED!"
