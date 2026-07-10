@@ -17,10 +17,17 @@ on:
             docker_token:
                 description: This is the docker token inside the secrets section
                 required: true
+        outputs:
+            build_version:
+                description: This is the output for the given input
+                value: ${{ jobs.take_input.outputs.version }}
+
 
 jobs:
     take_input:
         runs-on: ubuntu-latest
+        outputs:
+            version: ${{ steps.generate_version.outputs.version_string }} 
         steps:
             - name: Checkout the code
               uses: actions/checkout@v4
@@ -36,3 +43,8 @@ jobs:
                       echo "Docker token is set: false"
                       exit 1
                   fi
+            - name: Generate The output
+              id: generate_version
+              run: |
+                  short-sha=$(git rev-parse HEAD | cut -c 1-7) 
+                  echo "version_string=v1.0-${short-sha}" >> $GITHUB_OUTPUT
