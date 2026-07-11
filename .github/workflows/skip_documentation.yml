@@ -1,0 +1,15 @@
+name: skip_documentation
+
+on:
+    push:
+        branches: [main, release/*]
+        paths-ignore:
+            - '*.md'
+            - 'docs/**'
+
+jobs:
+    build_run:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Check if the modified file is ignored or not
+              run: echo "Ran Successfully!"

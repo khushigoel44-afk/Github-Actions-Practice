@@ -1,0 +1,15 @@
+name: smart-triggers
+
+on:
+    push:
+        branches: [main, release/*]
+        paths:
+            - 'src/**'
+            - 'app/**'
+
+jobs:
+    build_run:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Check if the modified file is mentioned within the paths section
+              run: echo "Ran Successfully!"
