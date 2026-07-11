@@ -1,0 +1,25 @@
+name: scheduled-tasks
+
+on:
+    schedule:
+        - cron: '30 2 * * 1'
+        - cron: '0 */6 * * *'
+    workflow_dispatch:
+
+jobs:
+    scheduled:
+        runs-on: ubuntu-latest
+        steps:
+            - name: print which schedule triggered
+              run: echo "Schedule Triggered is ${{ github.event.schedule }}"
+
+            - name: Check for the HealthCheck
+              run: |
+                  target_url="https://example.com"
+                  response=$(curl -s -o /dev/null -w "%{http_code}" "$target_url")
+                  if [ "$response" -eq 200 ]; then
+                      echo "working alright!"
+                  else 
+                      echo "Failed to connect with the server!"
+                  fi
+                  
