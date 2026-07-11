@@ -1,0 +1,62 @@
+name: pr-check-again
+
+on: 
+    pull_request:
+        branches: [main]
+
+jobs:
+    file_size_check:
+        runs-on: ubuntu-latest
+        steps:
+            - name: checkout the code
+              uses: actions/checkout@v4
+
+            - name: Check if the file size is greater than 1MB
+              run: |
+                  target_branch="origin/${{ github.base_ref }}"
+                  failed=0
+                  while IFS= read -r file; do
+                      if [ -f "$file" ]; then
+                          file_size=$(stat -c%s "$file" )
+                          if [ "$file_size" -gt 1048576 ]; then 
+                              echo "File size exceeded the threshold value"
+                              failed=1;
+                          else 
+                              echo "Successfully passed the threshold value"
+                          fi
+                      fi
+                  done < <(git diff --name-only "$target_branch"...HEAD)
+                  if [ "$failed" -eq 1 ]; then
+                      echo "The size of the file is more than 1MB"
+                      exit 1
+                  fi
+
+    branch-name-check:
+        runs-on: ubuntu-latest
+        steps: 
+            - name: Reads the branch name
+              run: echo "${{ github.head_ref }}"
+
+            - name: Check if the file starts with feature/* fix/* or docs/*
+              run: |
+                  branch_name="${{ github.head_ref }}"
+                  if [[ "$branch_name" =~ ^(feature|fix|docs)/.+ ]]; then
+                      echo "Successfully done!"
+                  else
+                      echo "Failed to follow the standard!"
+                      exit 1
+                  fi
+
+    pr-body-check:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Reads the PR body
+              run: echo "${{ github.event.pull_request.body }}"
+
+            - name: prints Warning if the pr description is empty
+              run: |
+                 if [ -n "${{ github.event.pull_request.body }}" ]; then
+                     echo "EVERYTHING WORKS FINE!"
+                 else 
+                     echo "NO PR DESCRIPTION FOUND!!"
+                 fi 
