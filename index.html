@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rina Kent Universe | Dark Romance</title>
+    <style>
+        :root {
+            --bg-color: #0a0a0a;
+            --card-bg: #121212;
+            --accent-color: #8b0000;
+            --accent-hover: #ff0000;
+            --text-primary: #ffffff;
+            --text-secondary: #b3b3b3;
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-sans: 'Montserrat', Helvetica, sans-serif;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-color);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-color);
+            border-radius: 4px;
+        }
+
+        /* Header / Navigation */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 50px;
+            z-index: 1000;
+            background: linear-gradient(to bottom, rgba(10,10,10,0.9), rgba(10,10,10,0));
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--accent-color);
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-left: 30px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent-hover);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            background: linear-gradient(rgba(10, 10, 10, 0.6), rgba(10, 10, 10, 0.95)), 
+                        url('https://images.unsplash.com/photo-1506880018603-83d5b814b5a6?auto=format&fit=crop&q=80&w=1800') no-repeat center center/cover;
+            position: relative;
+        }
+
+        .hero-content h1 {
+            font-family: var(--font-display);
+            font-size: 4.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        .hero-content p {
+            font-family: var(--font-display);
+            font-style: italic;
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 35px;
+            background-color: var(--accent-color);
+            color: var(--text-primary);
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            border-radius: 0;
+            transition: all 0.4s ease;
+            border: 1px solid transparent;
+        }
+
+        .btn:hover {
+            background-color: transparent;
+            border-color: var(--accent-hover);
+            color: var(--accent-hover);
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* Main Content Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 100px 20px;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+            letter-spacing: 1px;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 2px;
+            background-color: var(--accent-color);
+            margin: 15px auto 0;
+        }
+
+        /* Books Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .book-card {
+            background-color: var(--card-bg);
+            border: 1px solid #1a1a1a;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .book-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-color);
+            box-shadow: 0 10px 30px rgba(139, 0, 0, 0.15);
+        }
+
+        .book-cover-placeholder {
+            height: 400px;
+            background: linear-gradient(45deg, #1a1a1a, #260000);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            text-align: center;
+            border-bottom: 3px solid var(--accent-color);
+            position: relative;
+        }
+
+        .book-cover-placeholder::before {
+            content: '💀';
+            font-size: 3rem;
+            margin-bottom: 15px;
+            opacity: 0.7;
+        }
+
+        .series-tag {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: var(--accent-hover);
+            padding: 5px 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 1px solid var(--accent-color);
+        }
+
+        .book-title {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .book-info {
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .tropes {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--accent-hover);
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        /* Warning Banner */
+        .warning-zone {
+            background: linear-gradient(135deg, #1a0000 0%, #0a0a0a 100%);
+            border-left: 5px solid var(--accent-color);
+            padding: 40px;
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        .warning-zone h3 {
+            font-family: var(--font-display);
+            color: var(--accent-hover);
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .warning-zone p {
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 0.95rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #050505;
+            padding: 40px 20px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #555;
+            border-top: 1px solid #111;
+            letter-spacing: 1px;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 20px; }
+            nav { display: none; }
+            .hero-content h1 { font-size: 2.8rem; }
+            .grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="#" class="logo">RINA<span>KENT</span></a>
+        <nav>
+            <a href="#books">The Books</a>
+            <a href="#warning">Disclaimer</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Enter the Cruel Universe</h1>
+            <p>Where monsters rule, and love is a beautiful obsession.</p>
+            <a href="#books" class="btn">Explore the Darkness</a>
+        </div>
+    </section>
+
+    <main class="container" id="books">
+        <h2 class="section-title">The Essential Reading List</h2>
+        
+        <div class="grid">
+            <!-- Book 1 -->
+            <div class="book-card">
+                <div class="book-cover-placeholder">
+                    <span class="series-tag">Legacy of Gods</span>
+                    <div class="book-title">God of Malice</div>
+                </div>
+                <div class="book-info">
+                    <div class="tropes">Killers • Psycho Anti-Hero • Forced Proximity</div>
+                    <p class="description">Killian Carson is a monster wrapped in a beautiful package. Glyndon King is just trying to survive college. When their paths cross in the worst way possible, he decides she belongs to him. Total obsession begins here.</p>
+                    <a href="#" class="btn">Read Chapter One</a>
+                </div>
+            </div>
+
+            <!-- Book 2 -->
+            <div class="book-card">
+                <div class="book-cover-placeholder">
+                    <span class="series-tag">Royal Elite</span>
+                    <div class="book-title">Deviant King</div>
+                </div>
+                <div class="book-info">
+                    <div class="tropes">Bully Romance • Enemies to Lovers • High School</div>
+                    <p class="description">Aiden King rules Royal Elite Academy with an iron fist. Elsa Winters is the quiet girl he vows to destroy. But the line between hate and absolute possession is terrifyingly thin.</p>
+                    <a href="#" class="btn">Enter the Kingdom</a>
+                </div>
+            </div>
+
+            <!-- Book 3 -->
+            <div class="book-card">
+                <div class="book-cover-placeholder">
+                    <span class="series-tag">Deception Trilogy</span>
+                    <div class="book-title">Vow of Deception</div>
+                </div>
+                <div class="book-info">
+                    <div class="tropes">Bratva Mafia • Arranged Marriage • Identity Twist</div>
+                    <p class="description">Adrian Volkov is a cold-blooded mafia kingpin. He thinks he bought a submissive wife to replace what he lost, but the secrets hidden beneath the surface are lethal enough to tear the empire apart.</p>
+                    <a href="#" class="btn">Uncover the Secret</a>
+                </div>
+            </div>
+        </div>
+
+        <section class="warning-zone" id="warning">
+            <h3>⚠️ Enter At Your Own Risk</h3>
+            <p>These books feature unapologetic anti-heroes, dark themes, and intense psychological dynamics. If you are looking for safe, vanilla romances, turn back now, Love. But if you want a love story that burns down the world... you're in the right place.</p>
+        </section>
+    </main>
+
+    <footer>
+        &copy; 2026 Rina Kent Fan Portal. Designed for those who love the monsters.
+    </footer>
+
+</body>
+</html>

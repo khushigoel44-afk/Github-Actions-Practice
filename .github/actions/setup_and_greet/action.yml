@@ -1,0 +1,34 @@
+name: action.yml
+description: This is a composite workflow whose aim is to greet 
+
+inputs:
+    name:
+        description: This is the section to enter the name
+        required: true
+    language:
+        description: This is the section where we enter the language
+        required: true
+        default: "en"
+outputs:
+    greeted:
+        description: This is the section for printing the output
+        value: "true"
+
+runs:
+    using: "composite"
+    steps:
+        - name: Print the greeting in a specific language
+          shell: bash
+          run: |
+              if [ "${{ inputs.language }}" == "en" ]; then
+                  echo "HELLO ${{ inputs.name }}" 
+              else
+                  echo "HOLA ${{ inputs.name }}"
+              fi
+
+        - name: Print Metadata
+          shell: bash
+          run: | 
+              echo "Current date is $(date)"
+              echo "Current Runner OS is ${{ runner.os }}"
+                    

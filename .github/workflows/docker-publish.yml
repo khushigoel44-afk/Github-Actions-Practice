@@ -1,0 +1,35 @@
+name: docker-publish
+
+on: 
+    push:
+        branches: [main]
+    workflow_dispatch:
+
+jobs:
+    docker-image:
+        env:
+            USERNAME: ${{ secrets.USERNAME }}
+            PASSWORD: ${{ secrets.PASSWORD }}
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout the code
+              uses: actions/checkout@v4
+
+            - name: Login to DockerHub
+              if: github.ref_name == 'main'
+              run: echo "$PASSWORD" | docker login -u "$USERNAME" --password-stdin
+
+            - name: Build the docker image
+              if: github.ref_name == 'main'
+              run: |
+                  short_sha=$(echo "${{ github.sha }}" | cut -c1-7)
+                  latest_image="$USERNAME/aura_image:latest"
+                  sha_image="$USERNAME/aura_image:sha-$short_sha"
+
+                  docker build -t "$latest_image" .
+                  docker tag "$latest_image" "$sha_image"
+
+                  docker push "$latest_image"
+                  docker push "$sha_image"
+                  
+

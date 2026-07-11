@@ -1,0 +1,33 @@
+name: sharing-artifacts
+
+on:
+    push:
+
+jobs:
+    upload-artifacts:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Create artifacts
+              run: |
+                  echo "This is a job to upload the artifacts" > shared-doc.txt
+                  echo "This will be displayed later!" >> shared-doc.txt
+
+            - name: Upload the artifacts
+              uses: actions/upload-artifact@v4
+              with:
+                  name: shared-artifact
+                  path: shared-doc.txt
+
+    download-artifacts:
+        needs: upload-artifacts
+        runs-on: ubuntu-latest
+        steps:
+            - name: download artifacts
+              uses: actions/download-artifact@v4
+              with:
+                  name: shared-artifact
+
+            - name: Print the artifacts
+              run: |
+                echo "Print the artifacts"
+                cat shared-doc.txt
